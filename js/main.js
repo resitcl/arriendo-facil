@@ -4094,6 +4094,97 @@ app.bg = {
   }
 };
 
+app.carousel = {
+  current: 0,
+  duration: 6000,
+  time: 0,
+  timeout: false,
+  init: function() {
+    var el;
+    el = $(".carousel");
+    app.carousel.go(el, 0, true);
+    app.carousel.setBar(el);
+    app.carousel.eventSwipe(el);
+    return $(".carousel-thumbnail").click(function() {
+      var parent;
+      parent = $(this).closest(".carousel");
+      return app.carousel.go(parent, $(this).index());
+    });
+  },
+  next: function(el) {
+    var next;
+    next = el.find(".section__thumbs .carousel-thumbnail.current").index() + 1;
+    if (!el.find(".carousel-content").eq(next).length) {
+      next = 0;
+    }
+    return this.go(el, next);
+  },
+  prev: function(el) {
+    var prev;
+    prev = el.find(".section__thumbs .carousel-thumbnail.current").index() - 1;
+    if (!el.find(".carousel-content").eq(prev).length) {
+      prev = 0;
+    }
+    return this.go(el, prev);
+  },
+  go: function(el, to, firstime) {
+    var current, delay;
+    if (firstime == null) {
+      firstime = false;
+    }
+    this.time = 0;
+    this.current = to;
+    delay = 50;
+    if (firstime) {
+      delay = 0;
+    }
+    el.find(".current").addClass("out").removeClass("current");
+    el.find(".carousel-thumbnail").find(".section__thumb__bar").css({
+      width: 0 + "%"
+    });
+    el.find(".carousel-thumbnail").eq(to).addClass("current");
+    setTimeout(function() {
+      el.find(".out").removeClass("out");
+      return el.find(".carousel-content").eq(to).addClass("current");
+    }, delay);
+    current = el.find(".carousel-thumbnail.current").index();
+    if (el.find(".carousel-content video").length) {
+      el.find("video")[current].pause();
+      el.find("video")[current].currentTime = 0;
+      el.find("video")[current].play();
+    }
+    return this.autoplay(el);
+  },
+  autoplay: function(el) {
+    clearTimeout(app.carousel.timeout);
+    return app.carousel.timeout = setTimeout(function() {
+      return app.carousel.next(el);
+    }, this.duration);
+  },
+  setBar: function(el) {
+    return setInterval(function() {
+      var bar, width;
+      app.carousel.time += 50;
+      bar = el.find(".carousel-thumbnail.current").find(".section__thumb__bar");
+      width = app.carousel.time * 100 / app.carousel.duration;
+      if (width > 100) {
+        width = 100;
+      }
+      return bar.css({
+        width: width + "%"
+      });
+    }, 50);
+  },
+  eventSwipe: function(carousel) {
+    carousel.hammer().bind("swipeleft", function(e) {
+      return app.carousel.next($(this));
+    });
+    return carousel.hammer().bind("swiperight", function(e) {
+      return app.carousel.prev($(this));
+    });
+  }
+};
+
 app.common = {
   init: function() {
     return $(".section__card").each(function() {
