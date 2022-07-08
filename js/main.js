@@ -4680,14 +4680,10 @@ app.shares = {
 app.slider = {
   init: function() {
     $(".slider").each(function() {
-      var el;
       app.slider.createElements($(this));
       app.slider.go($(this), 0);
       app.slider.autoplay($(this));
-      app.slider.eventSwipe($(this));
-      el = $(".slides");
-      app.thumb.go(el, 0, true);
-      return app.thumb.setBar(el);
+      return app.slider.eventSwipe($(this));
     });
     $(document).on("click", ".slider .slider-nav-left", function() {
       return app.slider.prev($(this).closest(".slider"));
