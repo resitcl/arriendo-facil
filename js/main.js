@@ -4066,15 +4066,9 @@ var trim = String.prototype.trim ?
 
 })(window.jQuery || window.Zepto, window, document);
 
-var $map, $pines, $pinesMarkers, app;
+var app;
 
 app = [];
-
-$pines = [];
-
-$pinesMarkers = [];
-
-$map = '';
 
 app.bg = {
   init: function() {
@@ -4186,33 +4180,7 @@ app.carousel = {
 };
 
 app.common = {
-  init: function() {
-    return $(".section__card").each(function() {
-      var large_bz, large_bz_final, large_tier, large_tier_final, position_bz1, position_bz1_final, value__100, value_bz1, value_bz2, value_sl, value_t1, value_t2, value_t3, value_t4;
-      value_sl = $(this).find(".section__card__line__sl").attr("data-sl");
-      value_bz1 = $(this).find(".section__card__line__bz").attr("data-bz-1");
-      value_bz2 = $(this).find(".section__card__line__bz").attr("data-bz-2");
-      value_t1 = $(this).find(".section__card__line__tg").attr("data-t1");
-      value_t2 = $(this).find(".section__card__line__tg").attr("data-t2");
-      value_t3 = $(this).find(".section__card__line__tg").attr("data-t3");
-      value_t4 = $(this).find(".section__card__line__tg").attr("data-t4");
-      large_bz = value_bz2 - value_bz1;
-      large_tier = value_t4 - value_t1;
-      value__100 = value_t4 - value_sl;
-      large_tier_final = (large_tier * 100) / value__100;
-      large_bz_final = (large_bz * 100) / value__100;
-      position_bz1 = value_bz1 - value_sl;
-      position_bz1_final = (position_bz1 * 100) / value__100;
-      $(this).find(".section__card__line__bz").css({
-        'left': position_bz1_final + '%',
-        'transform': 'translate(' + position_bz1_final + '%,-50%)',
-        'width': large_bz_final + '%'
-      });
-      return $(this).find(".section__card__line__tg").css({
-        'width': large_tier_final + '%'
-      });
-    });
-  }
+  init: function() {}
 };
 
 app.faq = {
